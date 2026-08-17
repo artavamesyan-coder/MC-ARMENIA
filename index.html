@@ -1,0 +1,2157 @@
+<!DOCTYPE html>
+<html lang="hy">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>ProjectArt — Minecraft</title>
+
+<style>
+
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+:root{
+    --green:#65e6a4;
+    --green2:#35b879;
+    --bg:#070a0f;
+    --card:#101722;
+    --border:#202c3b;
+    --text:#f5f7fb;
+    --muted:#8f9bad;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    font-family:Arial,sans-serif;
+    color:var(--text);
+    min-height:100vh;
+
+    background:
+        radial-gradient(
+            circle at 50% -20%,
+            #17432f 0%,
+            #0b1512 25%,
+            transparent 55%
+        ),
+        var(--bg);
+}
+
+
+/* ================= NAV ================= */
+
+header{
+    position:sticky;
+    top:0;
+    z-index:1000;
+
+    background:rgba(7,10,15,.86);
+
+    backdrop-filter:blur(18px);
+
+    border-bottom:1px solid #1c2633;
+}
+
+.nav{
+    max-width:1200px;
+    margin:auto;
+
+    padding:18px 22px;
+
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.logo{
+    font-size:25px;
+    font-weight:900;
+    letter-spacing:-1px;
+
+    margin-right:auto;
+}
+
+.logo span{
+    color:var(--green);
+}
+
+
+/* ================= NAV BUTTONS ================= */
+
+.nav-btn{
+
+    border:1px solid #263244;
+
+    background:#101722;
+
+    color:#9da8b9;
+
+    padding:10px 15px;
+
+    border-radius:10px;
+
+    cursor:pointer;
+
+    transition:.2s;
+
+    font-weight:700;
+}
+
+.nav-btn:hover{
+    color:white;
+    border-color:#3b8062;
+}
+
+.nav-btn.active{
+    color:#06110b;
+
+    background:var(--green);
+
+    border-color:var(--green);
+}
+
+
+/* ================= HERO ================= */
+
+.hero{
+
+    max-width:1050px;
+
+    margin:auto;
+
+    padding:80px 22px 45px;
+
+    text-align:center;
+}
+
+.badge{
+
+    display:inline-flex;
+
+    padding:8px 14px;
+
+    border-radius:50px;
+
+    border:1px solid #2c5945;
+
+    background:rgba(20,48,36,.55);
+
+    color:var(--green);
+
+    font-size:12px;
+
+    font-weight:800;
+}
+
+h1{
+
+    font-size:clamp(48px,8vw,88px);
+
+    line-height:.94;
+
+    letter-spacing:-5px;
+
+    margin-top:25px;
+}
+
+h1 span{
+    color:var(--green);
+}
+
+.hero-text{
+
+    max-width:700px;
+
+    margin:25px auto 35px;
+
+    color:var(--muted);
+
+    line-height:1.6;
+
+    font-size:17px;
+}
+
+
+/* ================= SEARCH ================= */
+
+.search-area{
+
+    max-width:850px;
+
+    margin:auto;
+
+    padding:8px;
+
+    display:flex;
+
+    gap:8px;
+
+    background:rgba(16,23,34,.9);
+
+    border:1px solid #263243;
+
+    border-radius:16px;
+
+    box-shadow:0 20px 60px #0007;
+}
+
+.search-area input{
+
+    flex:1;
+
+    min-width:0;
+
+    padding:15px 17px;
+
+    border:none;
+
+    outline:none;
+
+    background:transparent;
+
+    color:white;
+
+    font-size:16px;
+}
+
+.search-area input::placeholder{
+    color:#667386;
+}
+
+.search-button{
+
+    border:none;
+
+    border-radius:11px;
+
+    padding:0 24px;
+
+    background:var(--green);
+
+    color:#06110b;
+
+    font-weight:900;
+
+    cursor:pointer;
+}
+
+.search-button:hover{
+    background:#82f2b7;
+}
+
+
+/* ================= CONTROLS ================= */
+
+.controls{
+
+    max-width:1200px;
+
+    margin:auto;
+
+    padding:0 22px 25px;
+
+    display:flex;
+
+    gap:10px;
+
+    flex-wrap:wrap;
+}
+
+.control{
+
+    background:#101722;
+
+    color:#aeb8c8;
+
+    border:1px solid #263244;
+
+    border-radius:11px;
+
+    padding:11px 13px;
+
+    outline:none;
+
+    cursor:pointer;
+}
+
+
+/* ================= CATEGORIES ================= */
+
+.categories{
+
+    max-width:1200px;
+
+    margin:auto;
+
+    padding:0 22px 25px;
+
+    display:flex;
+
+    gap:9px;
+
+    flex-wrap:wrap;
+}
+
+.category{
+
+    border:1px solid #263244;
+
+    background:#101722;
+
+    color:#aeb8c8;
+
+    padding:9px 14px;
+
+    border-radius:50px;
+
+    cursor:pointer;
+
+    transition:.2s;
+}
+
+.category:hover{
+    color:var(--green);
+    border-color:#3b8062;
+}
+
+.category.active{
+
+    color:var(--green);
+
+    background:#153125;
+
+    border-color:#3b8062;
+}
+
+
+/* ================= STATUS ================= */
+
+.status{
+
+    max-width:1200px;
+
+    margin:auto;
+
+    padding:0 22px 20px;
+
+    color:var(--muted);
+
+    font-size:14px;
+}
+
+
+/* ================= MODS ================= */
+
+.mods{
+
+    max-width:1200px;
+
+    margin:auto;
+
+    padding:0 22px 80px;
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(
+            auto-fill,
+            minmax(270px,1fr)
+        );
+
+    gap:18px;
+}
+
+
+/* ================= CARD ================= */
+
+.card{
+
+    position:relative;
+
+    overflow:hidden;
+
+    padding:20px;
+
+    border:1px solid var(--border);
+
+    border-radius:19px;
+
+    background:
+        linear-gradient(
+            145deg,
+            #121a26,
+            #0c121a
+        );
+
+    transition:.25s;
+}
+
+.card:hover{
+
+    transform:translateY(-5px);
+
+    border-color:#3c8063;
+
+    box-shadow:0 22px 55px #0008;
+}
+
+.icon{
+
+    width:58px;
+
+    height:58px;
+
+    display:grid;
+
+    place-items:center;
+
+    border-radius:15px;
+
+    background:#182333;
+
+    font-size:27px;
+
+    margin-bottom:15px;
+}
+
+.icon img{
+
+    width:38px;
+
+    height:38px;
+
+    object-fit:contain;
+
+    border-radius:8px;
+}
+
+.card h2{
+
+    font-size:20px;
+
+    margin-bottom:8px;
+}
+
+.description{
+
+    color:#9ba6b7;
+
+    font-size:14px;
+
+    line-height:1.6;
+
+    min-height:80px;
+}
+
+.loading{
+
+    color:var(--green);
+
+    animation:pulse 1.2s infinite;
+}
+
+@keyframes pulse{
+
+    0%{opacity:.4}
+    50%{opacity:1}
+    100%{opacity:.4}
+
+}
+
+
+/* ================= TAGS ================= */
+
+.tags{
+
+    display:flex;
+
+    flex-wrap:wrap;
+
+    gap:7px;
+
+    margin:16px 0;
+}
+
+.tag{
+
+    padding:5px 8px;
+
+    border-radius:7px;
+
+    background:#182130;
+
+    color:#aeb8c8;
+
+    font-size:11px;
+}
+
+
+/* ================= DOWNLOAD ================= */
+
+.download{
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    width:100%;
+
+    padding:12px;
+
+    border-radius:10px;
+
+    background:var(--green);
+
+    color:#06110b;
+
+    font-weight:900;
+
+    cursor:pointer;
+
+    border:none;
+
+    transition:.2s;
+}
+
+.download:hover{
+
+    background:#82f2b7;
+
+    transform:scale(1.02);
+}
+
+
+/* ================= EMPTY ================= */
+
+.empty{
+
+    grid-column:1/-1;
+
+    text-align:center;
+
+    padding:70px 20px;
+
+    color:var(--muted);
+}
+
+.empty-icon{
+
+    font-size:50px;
+
+    margin-bottom:15px;
+}
+
+
+/* ================= FOOTER ================= */
+
+footer{
+
+    border-top:1px solid #1d2634;
+
+    padding:35px 20px;
+
+    text-align:center;
+
+    color:#697689;
+
+    font-size:13px;
+}
+
+
+/* ================= TOAST ================= */
+
+.toast{
+
+    position:fixed;
+
+    left:50%;
+
+    bottom:25px;
+
+    transform:
+        translateX(-50%)
+        translateY(100px);
+
+    padding:13px 18px;
+
+    background:#151e2a;
+
+    border:1px solid #2a394c;
+
+    border-radius:12px;
+
+    color:white;
+
+    opacity:0;
+
+    pointer-events:none;
+
+    transition:.3s;
+
+    z-index:9999;
+}
+
+.toast.show{
+
+    opacity:1;
+
+    transform:
+        translateX(-50%)
+        translateY(0);
+}
+
+
+/* ================= MOBILE ================= */
+
+@media(max-width:650px){
+
+    .nav-btn{
+        padding:8px 10px;
+        font-size:12px;
+    }
+
+    .search-area{
+
+        flex-direction:column;
+
+        background:transparent;
+
+        border:none;
+
+        box-shadow:none;
+
+        padding:0;
+    }
+
+    .search-area input{
+
+        background:#101722;
+
+        border:1px solid #263244;
+
+        border-radius:12px;
+    }
+
+    .search-button{
+
+        min-height:48px;
+    }
+
+    h1{
+        letter-spacing:-3px;
+    }
+
+}
+
+</style>
+</head>
+
+
+<body>
+
+
+<!-- ================= HEADER ================= -->
+
+<header>
+
+<div class="nav">
+
+    <div class="logo">
+        Project<span>Art</span>
+    </div>
+
+    <button
+        class="nav-btn active"
+        data-type="mod"
+    >
+        🧩 Մոդեր
+    </button>
+
+    <button
+        class="nav-btn"
+        data-type="resourcepack"
+    >
+        🎨 Resource Packs
+    </button>
+
+</div>
+
+</header>
+
+
+<!-- ================= HERO ================= -->
+
+<section class="hero">
+
+
+
+<h1>
+
+    Գտիր քո
+
+    <br>
+
+    <span id="heroTitle">
+        իդեալական մոդը։
+    </span>
+
+</h1>
+
+
+<p
+    class="hero-text"
+    id="heroText"
+>
+
+    Փնտրիր Minecraft-ի մոդերը,
+    ընտրիր տարբերակը և loader-ը։
+    Նկարագրությունները ավտոմատ
+    կթարգմանվեն հայերեն։
+
+</p>
+
+
+<div class="search-area">
+
+    <input
+        id="searchInput"
+        type="text"
+        placeholder="🔎 Օրինակ՝ Sodium, Iris, Jade..."
+    >
+
+    <button
+        class="search-button"
+        id="searchButton"
+    >
+        Որոնել
+    </button>
+
+</div>
+
+</section>
+
+
+<!-- ================= CONTROLS ================= -->
+
+<div class="controls">
+
+<select
+    class="control"
+    id="versionSelect"
+>
+
+    <option value="1.21.4">
+        Minecraft 1.21.4
+    </option>
+
+    <option value="1.21.1">
+        Minecraft 1.21.1
+    </option>
+
+    <option value="1.20.1">
+        Minecraft 1.20.1
+    </option>
+
+    <option value="1.16.5">
+        Minecraft 1.16.5
+    </option>
+
+</select>
+
+
+<select
+    class="control"
+    id="loaderSelect"
+>
+
+    <option value="fabric">
+        Fabric
+    </option>
+
+    <option value="forge">
+        Forge
+    </option>
+
+    <option value="neoforge">
+        NeoForge
+    </option>
+
+    <option value="quilt">
+        Quilt
+    </option>
+
+</select>
+
+</div>
+
+
+<!-- ================= CATEGORIES ================= -->
+
+<div
+    class="categories"
+    id="categories"
+>
+
+    <button
+        class="category active"
+        data-category="all"
+    >
+        Բոլորը
+    </button>
+
+    <button
+        class="category"
+        data-category="optimization"
+    >
+        ⚡ Օպտիմիզացիա
+    </button>
+
+    <button
+        class="category"
+        data-category="utility"
+    >
+        🧰 Օգտակար
+    </button>
+
+    <button
+        class="category"
+        data-category="visual"
+    >
+        ✨ Վիզուալ
+    </button>
+
+    <button
+        class="category"
+        data-category="pvp"
+    >
+        ⚔️ PvP
+    </button>
+
+    <button
+        class="category"
+        data-category="pve"
+    >
+        🧟 PvE
+    </button>
+
+</div>
+
+
+<!-- ================= STATUS ================= -->
+
+<div
+    class="status"
+    id="status"
+>
+    Ընտրիր բաժինը և փնտրիր։
+</div>
+
+
+<!-- ================= RESULTS ================= -->
+
+<main
+    class="mods"
+    id="mods"
+>
+
+<div class="empty">
+
+    <div class="empty-icon">
+        🔎
+    </div>
+
+    Փնտրիր Minecraft-ի
+    մոդ կամ Resource Pack։
+
+</div>
+
+</main>
+
+
+<footer>
+
+    BlockVault © 2026
+
+    <br><br>
+
+    Տվյալները ստացվում են Modrinth API-ից։
+
+</footer>
+
+
+<div
+    class="toast"
+    id="toast"
+></div>
+
+
+<script>
+
+
+/* =====================================================
+   API
+===================================================== */
+
+const MODRINTH_API =
+    "https://api.modrinth.com/v2";
+
+const TRANSLATION_API =
+    "https://api.mymemory.translated.net/get";
+
+
+/* =====================================================
+   STATE
+===================================================== */
+
+let currentType =
+    "mod";
+
+let currentCategory =
+    "all";
+
+
+/* =====================================================
+   ELEMENTS
+===================================================== */
+
+const searchInput =
+    document.getElementById(
+        "searchInput"
+    );
+
+const searchButton =
+    document.getElementById(
+        "searchButton"
+    );
+
+const versionSelect =
+    document.getElementById(
+        "versionSelect"
+    );
+
+const loaderSelect =
+    document.getElementById(
+        "loaderSelect"
+    );
+
+const modsContainer =
+    document.getElementById(
+        "mods"
+    );
+
+const statusElement =
+    document.getElementById(
+        "status"
+    );
+
+const heroTitle =
+    document.getElementById(
+        "heroTitle"
+    );
+
+const heroText =
+    document.getElementById(
+        "heroText"
+    );
+
+const badge =
+    document.getElementById(
+        "badge"
+    );
+
+const toast =
+    document.getElementById(
+        "toast"
+    );
+
+
+/* =====================================================
+   NAV SWITCH
+===================================================== */
+
+document
+.querySelectorAll(".nav-btn")
+.forEach(button => {
+
+    button.addEventListener(
+        "click",
+        () => {
+
+            document
+            .querySelectorAll(".nav-btn")
+            .forEach(btn =>
+                btn.classList.remove(
+                    "active"
+                )
+            );
+
+            button.classList.add(
+                "active"
+            );
+
+
+            currentType =
+                button.dataset.type;
+
+
+            if(
+                currentType ===
+                "resourcepack"
+            ){
+
+                heroTitle.textContent =
+                    "լավագույն Resource Pack-ը։";
+
+                heroText.textContent =
+                    "Փնտրիր Minecraft-ի Resource Pack-երը՝ PvP, PvE, Visual և այլ կատեգորիաներով։ Նկարագրությունները ավտոմատ կթարգմանվեն հայերեն։";
+
+                badge.textContent =
+                    "MODRINTH • RESOURCE PACKS";
+
+                searchInput.placeholder =
+                    "🔎 Օրինակ՝ Faithful, PvP Pack...";
+
+            }
+
+            else{
+
+                heroTitle.textContent =
+                    "իդեալական մոդը։";
+
+                heroText.textContent =
+                    "Փնտրիր Minecraft-ի մոդերը, ընտրիր տարբերակը և loader-ը։ Նկարագրությունները ավտոմատ կթարգմանվեն հայերեն։";
+
+                badge.textContent =
+                    "MODRINTH • MODS";
+
+                searchInput.placeholder =
+                    "🔎 Օրինակ՝ Sodium, Iris, Jade...";
+
+            }
+
+
+            currentCategory =
+                "all";
+
+
+            document
+            .querySelectorAll(".category")
+            .forEach(btn =>
+                btn.classList.remove(
+                    "active"
+                )
+            );
+
+
+            document
+            .querySelector(
+                '[data-category="all"]'
+            )
+            .classList.add(
+                "active"
+            );
+
+
+            if(
+                searchInput.value.trim()
+            ){
+
+                searchProjects();
+
+            }
+
+        }
+    );
+
+});
+
+
+/* =====================================================
+   TOAST
+===================================================== */
+
+function showToast(message){
+
+    toast.textContent =
+        message;
+
+    toast.classList.add(
+        "show"
+    );
+
+    setTimeout(
+        () =>
+            toast.classList.remove(
+                "show"
+            ),
+        3000
+    );
+
+}
+
+
+/* =====================================================
+   SEARCH
+===================================================== */
+
+async function searchProjects(){
+
+    const query =
+        searchInput.value.trim();
+
+
+    if(!query){
+
+        showToast(
+            "Գրիր որոնման բառը։"
+        );
+
+        return;
+
+    }
+
+
+    const version =
+        versionSelect.value;
+
+
+    const loader =
+        loaderSelect.value;
+
+
+    modsContainer.innerHTML = `
+
+        <div class="empty">
+
+            <div class="empty-icon">
+                ⏳
+            </div>
+
+            Փնտրում եմ...
+
+        </div>
+
+    `;
+
+
+    statusElement.textContent =
+        "Կապվում եմ Modrinth-ի հետ...";
+
+
+    try{
+
+        /*
+        =============================================
+        PROJECT TYPE
+        =============================================
+        */
+
+        const projectType =
+            currentType ===
+            "resourcepack"
+            ?
+            "resourcepack"
+            :
+            "mod";
+
+
+        /*
+        =============================================
+        SEARCH
+        =============================================
+        */
+
+        const facets =
+            JSON.stringify([
+                [
+                    `project_type:${projectType}`
+                ]
+            ]);
+
+
+        const url =
+            MODRINTH_API +
+            "/search?query=" +
+            encodeURIComponent(query) +
+            "&limit=30" +
+            "&facets=" +
+            encodeURIComponent(
+                facets
+            );
+
+
+        const response =
+            await fetch(url);
+
+
+        if(!response.ok){
+
+            throw new Error(
+                "Modrinth error"
+            );
+
+        }
+
+
+        const data =
+            await response.json();
+
+
+        let projects =
+            data.hits || [];
+
+
+        /*
+        =============================================
+        CATEGORY FILTER
+        =============================================
+        */
+
+        if(
+            currentCategory !==
+            "all"
+        ){
+
+            projects =
+                projects.filter(
+                    project =>
+                        categoryMatches(
+                            project,
+                            currentCategory
+                        )
+                );
+
+        }
+
+
+        if(
+            projects.length === 0
+        ){
+
+            modsContainer.innerHTML = `
+
+                <div class="empty">
+
+                    <div class="empty-icon">
+                        😔
+                    </div>
+
+                    Ոչինչ չի գտնվել։
+
+                </div>
+
+            `;
+
+
+            statusElement.textContent =
+                "Արդյունք չկա։";
+
+
+            return;
+
+        }
+
+
+        modsContainer.innerHTML =
+            "";
+
+
+        statusElement.textContent =
+            `Գտնվել է ${projects.length} արդյունք`;
+
+
+        /*
+        =============================================
+        CREATE CARDS
+        =============================================
+        */
+
+        for(
+            const project of projects
+        ){
+
+            const card =
+                createCard(
+                    project,
+                    version,
+                    loader
+                );
+
+
+            modsContainer.appendChild(
+                card
+            );
+
+
+            translateCard(
+                project,
+                card
+            );
+
+        }
+
+    }
+
+    catch(error){
+
+        console.error(error);
+
+
+        modsContainer.innerHTML = `
+
+            <div class="empty">
+
+                <div class="empty-icon">
+                    ⚠️
+                </div>
+
+                Չհաջողվեց կապվել Modrinth-ի հետ։
+
+            </div>
+
+        `;
+
+        statusElement.textContent =
+            "Սխալ";
+
+    }
+
+}
+
+
+/* =====================================================
+   CATEGORY MATCH
+===================================================== */
+
+function categoryMatches(
+    project,
+    category
+){
+
+    const categories =
+        (
+            project.categories || []
+        )
+        .map(
+            item =>
+                item.toLowerCase()
+        );
+
+
+    if(
+        category ===
+        "optimization"
+    ){
+
+        return (
+            categories.includes(
+                "optimization"
+            )
+            ||
+            categories.includes(
+                "performance"
+            )
+        );
+
+    }
+
+
+    if(
+        category ===
+        "utility"
+    ){
+
+        return categories.includes(
+            "utility"
+        );
+
+    }
+
+
+    if(
+        category ===
+        "visual"
+    ){
+
+        return (
+            categories.includes(
+                "cosmetic"
+            )
+            ||
+            categories.includes(
+                "visual"
+            )
+        );
+
+    }
+
+
+    /*
+       PvP / PvE-ի համար Modrinth-ում
+       միշտ չէ, որ կա հատուկ category։
+
+       Դրա համար փնտրում ենք նաև
+       project-ի անունի և description-ի մեջ։
+    */
+
+    if(
+        category === "pvp"
+    ){
+
+        const text =
+            (
+                project.title +
+                " " +
+                project.description
+            )
+            .toLowerCase();
+
+
+        return (
+            text.includes("pvp") ||
+            text.includes("combat")
+        );
+
+    }
+
+
+    if(
+        category === "pve"
+    ){
+
+        const text =
+            (
+                project.title +
+                " " +
+                project.description
+            )
+            .toLowerCase();
+
+
+        return (
+            text.includes("pve") ||
+            text.includes("survival") ||
+            text.includes("mob")
+        );
+
+    }
+
+
+    return true;
+
+}
+
+
+/* =====================================================
+   CREATE CARD
+===================================================== */
+
+function createCard(
+    project,
+    version,
+    loader
+){
+
+    const card =
+        document.createElement(
+            "article"
+        );
+
+
+    card.className =
+        "card";
+
+
+    const icon =
+        project.icon_url;
+
+
+    const emoji =
+        currentType ===
+        "resourcepack"
+        ?
+        "🎨"
+        :
+        "🧩";
+
+
+    card.innerHTML = `
+
+        <div class="icon">
+
+            ${
+                icon
+
+                ?
+
+                `
+                <img
+                    src="${escapeHTML(icon)}"
+                    alt=""
+                >
+                `
+
+                :
+
+                emoji
+            }
+
+        </div>
+
+
+        <h2>
+
+            ${escapeHTML(
+                project.title ||
+                project.slug
+            )}
+
+        </h2>
+
+
+        <div class="description loading">
+
+            ⏳ Թարգմանում եմ...
+
+        </div>
+
+
+        <div class="tags">
+
+            <span class="tag">
+
+                Minecraft ${escapeHTML(
+                    version
+                )}
+
+            </span>
+
+
+            <span class="tag">
+
+                ${currentType ===
+                "resourcepack"
+                ?
+                "Resource Pack"
+                :
+                escapeHTML(loader)}
+
+            </span>
+
+
+            <span class="tag">
+
+                ⬇ ${formatNumber(
+                    project.downloads
+                )}
+
+            </span>
+
+        </div>
+
+
+        <button class="download">
+
+            ⬇ Ներբեռնել
+
+        </button>
+
+    `;
+
+
+    const button =
+        card.querySelector(
+            ".download"
+        );
+
+
+    button.addEventListener(
+        "click",
+        () =>
+            downloadProject(
+                project.slug,
+                version,
+                loader,
+                button
+            )
+    );
+
+
+    return card;
+
+}
+
+
+/* =====================================================
+   TRANSLATE DESCRIPTION
+===================================================== */
+
+async function translateCard(
+    project,
+    card
+){
+
+    const element =
+        card.querySelector(
+            ".description"
+        );
+
+
+    const original =
+        project.description ||
+        "Նկարագրություն չկա։";
+
+
+    const translated =
+        await translateToArmenian(
+            original
+        );
+
+
+    element.classList.remove(
+        "loading"
+    );
+
+
+    element.textContent =
+        translated;
+
+}
+
+
+/* =====================================================
+   TRANSLATION
+===================================================== */
+
+async function translateToArmenian(
+    text
+){
+
+    const chunks =
+        splitText(
+            text,
+            450
+        );
+
+
+    const results = [];
+
+
+    for(
+        const chunk of chunks
+    ){
+
+        try{
+
+            const url =
+                TRANSLATION_API +
+                "?q=" +
+                encodeURIComponent(
+                    chunk
+                ) +
+                "&langpair=en|hy";
+
+
+            const response =
+                await fetch(
+                    url
+                );
+
+
+            if(!response.ok){
+
+                throw new Error(
+                    "Translation failed"
+                );
+
+            }
+
+
+            const data =
+                await response.json();
+
+
+            const translated =
+                data
+                ?.responseData
+                ?.translatedText;
+
+
+            results.push(
+                translated ||
+                chunk
+            );
+
+        }
+
+        catch(error){
+
+            console.error(
+                error
+            );
+
+
+            results.push(
+                chunk
+            );
+
+        }
+
+    }
+
+
+    return results.join(" ");
+
+}
+
+
+/* =====================================================
+   SPLIT TEXT
+===================================================== */
+
+function splitText(
+    text,
+    max
+){
+
+    const words =
+        text.split(/\s+/);
+
+
+    const chunks = [];
+
+    let current = "";
+
+
+    for(
+        const word of words
+    ){
+
+        if(
+            current.length +
+            word.length +
+            1 >
+            max
+        ){
+
+            chunks.push(
+                current
+            );
+
+            current =
+                word;
+
+        }
+        else{
+
+            current +=
+                (
+                    current
+                    ?
+                    " "
+                    :
+                    ""
+                ) +
+                word;
+
+        }
+
+    }
+
+
+    if(current){
+
+        chunks.push(
+            current
+        );
+
+    }
+
+
+    return chunks;
+
+}
+
+
+/* =====================================================
+   DOWNLOAD
+===================================================== */
+
+async function downloadProject(
+    slug,
+    version,
+    loader,
+    button
+){
+
+    button.textContent =
+        "⏳ Փնտրում եմ...";
+
+
+    try{
+
+        const url =
+            MODRINTH_API +
+            "/project/" +
+            encodeURIComponent(
+                slug
+            ) +
+            "/version";
+
+
+        const response =
+            await fetch(url);
+
+
+        if(!response.ok){
+
+            throw new Error(
+                "Version error"
+            );
+
+        }
+
+
+        const versions =
+            await response.json();
+
+
+        let matching;
+
+
+        if(
+            currentType ===
+            "resourcepack"
+        ){
+
+            matching =
+                versions.filter(
+                    item =>
+                        (
+                            item.game_versions ||
+                            []
+                        )
+                        .includes(
+                            version
+                        )
+                );
+
+        }
+
+        else{
+
+            matching =
+                versions.filter(
+                    item =>
+                        (
+                            item.game_versions ||
+                            []
+                        )
+                        .includes(
+                            version
+                        )
+                        &&
+                        (
+                            item.loaders ||
+                            []
+                        )
+                        .includes(
+                            loader
+                        )
+                );
+
+        }
+
+
+        if(
+            matching.length === 0
+        ){
+
+            button.textContent =
+                "❌ Չկա";
+
+            showToast(
+                "Այս տարբերակի ֆայլ չգտնվեց։"
+            );
+
+
+            resetButton(
+                button
+            );
+
+
+            return;
+
+        }
+
+
+        const modVersion =
+            matching[0];
+
+
+        let file =
+            modVersion.files.find(
+                item =>
+                    item.primary === true
+            );
+
+
+        if(!file){
+
+            file =
+                modVersion.files.find(
+                    item =>
+                        item.filename
+                        .toLowerCase()
+                        .endsWith(".jar")
+                        ||
+                        item.filename
+                        .toLowerCase()
+                        .endsWith(".zip")
+                );
+
+        }
+
+
+        if(!file){
+
+            throw new Error(
+                "File not found"
+            );
+
+        }
+
+
+        const link =
+            document.createElement(
+                "a"
+            );
+
+
+        link.href =
+            file.url;
+
+
+        link.target =
+            "_blank";
+
+
+        link.rel =
+            "noopener";
+
+
+        document.body.appendChild(
+            link
+        );
+
+
+        link.click();
+
+
+        link.remove();
+
+
+        button.textContent =
+            "✓ Ներբեռնումը սկսվեց";
+
+
+        showToast(
+            file.filename
+        );
+
+
+        resetButton(
+            button
+        );
+
+    }
+
+    catch(error){
+
+        console.error(
+            error
+        );
+
+
+        button.textContent =
+            "❌ Սխալ";
+
+
+        showToast(
+            "Չհաջողվեց ներբեռնել ֆայլը։"
+        );
+
+
+        resetButton(
+            button
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   RESET BUTTON
+===================================================== */
+
+function resetButton(
+    button
+){
+
+    setTimeout(
+        () => {
+
+            button.textContent =
+                "⬇ Ներբեռնել";
+
+        },
+        2500
+    );
+
+}
+
+
+/* =====================================================
+   CATEGORY BUTTONS
+===================================================== */
+
+document
+.querySelectorAll(".category")
+.forEach(button => {
+
+    button.addEventListener(
+        "click",
+        () => {
+
+            document
+            .querySelectorAll(".category")
+            .forEach(
+                btn =>
+                    btn.classList.remove(
+                        "active"
+                    )
+            );
+
+
+            button.classList.add(
+                "active"
+            );
+
+
+            currentCategory =
+                button.dataset.category;
+
+
+            if(
+                searchInput.value.trim()
+            ){
+
+                searchProjects();
+
+            }
+
+        }
+    );
+
+});
+
+
+/* =====================================================
+   SEARCH EVENTS
+===================================================== */
+
+searchButton.addEventListener(
+    "click",
+    searchProjects
+);
+
+
+searchInput.addEventListener(
+    "keydown",
+    event => {
+
+        if(
+            event.key ===
+            "Enter"
+        ){
+
+            searchProjects();
+
+        }
+
+    }
+);
+
+
+/* =====================================================
+   NUMBER
+===================================================== */
+
+function formatNumber(
+    number
+){
+
+    if(!number)
+        return "0";
+
+
+    return new Intl.NumberFormat(
+        "en",
+        {
+            notation:"compact"
+        }
+    ).format(number);
+
+}
+
+
+/* =====================================================
+   ESCAPE HTML
+===================================================== */
+
+function escapeHTML(
+    value
+){
+
+    return String(value)
+
+        .replaceAll(
+            "&",
+            "&amp;"
+        )
+
+        .replaceAll(
+            "<",
+            "&lt;"
+        )
+
+        .replaceAll(
+            ">",
+            "&gt;"
+        )
+
+        .replaceAll(
+            '"',
+            "&quot;"
+        )
+
+        .replaceAll(
+            "'",
+            "&#039;"
+        );
+
+}
+
+</script>
+
+</body>
+</html>
