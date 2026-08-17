@@ -665,7 +665,7 @@ footer{
 <div class="nav">
 
     <div class="logo">
-        Project<span>Art</span>
+       Project<span>Art</span>
     </div>
 
     <button
@@ -691,6 +691,9 @@ footer{
 
 <section class="hero">
 
+<div class="badge" id="badge">
+    MODRINTH
+</div>
 
 
 <h1>
@@ -807,40 +810,6 @@ footer{
         Բոլորը
     </button>
 
-    <button
-        class="category"
-        data-category="optimization"
-    >
-        ⚡ Օպտիմիզացիա
-    </button>
-
-    <button
-        class="category"
-        data-category="utility"
-    >
-        🧰 Օգտակար
-    </button>
-
-    <button
-        class="category"
-        data-category="visual"
-    >
-        ✨ Վիզուալ
-    </button>
-
-    <button
-        class="category"
-        data-category="pvp"
-    >
-        ⚔️ PvP
-    </button>
-
-    <button
-        class="category"
-        data-category="pve"
-    >
-        🧟 PvE
-    </button>
 
 </div>
 
@@ -2149,6 +2118,21 @@ function escapeHTML(
             "&#039;"
         );
 
+}
+
+
+async function translateToArmenian(text) {
+  if (!text) return "";
+  try {
+    const url = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=hy&dt=t&q=${encodeURIComponent(text)}`;
+    const res = await fetch(url);
+    const data = await res.json();
+    
+    // Google Translate-ի պատասխանից հավաքում ենք թարգմանված տեքստը
+    return data[0].map(item => item[0]).join('');
+  } catch (e) {
+    return text; // Սխալի դեպքում թողնում է բնօրինակ տեքստը
+  }
 }
 
 </script>
