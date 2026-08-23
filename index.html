@@ -882,6 +882,11 @@ function closeModal(){
 }
 
 window.addEventListener("DOMContentLoaded", () => {
+    document.getElementById("search").addEventListener("keydown", (event) => {
+        if (event.key === "Enter") {
+            searchProjects();
+        }
+    });
     createParticles();
     loadVersions();
 
