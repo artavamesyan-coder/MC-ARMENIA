@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MC Armenia — Minecraft Mods & Resource Packs</title>
+<title>MC Armenia — Minecraft Mods, Resource Packs & Data Packs</title>
 
 <!-- Firebase Core & Auth (Optional SDKs) -->
 <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
@@ -1191,7 +1191,7 @@ footer{
     <div class="hero">
         <div class="logo">⛏️</div>
         <h1>MC ARMENIA</h1>
-        <p>Minecraft Mods & Resource Packs</p>
+        <p>Minecraft Mods, Resource Packs & Data Packs</p>
 
         <!-- Decorative Badges -->
         <div class="hero-badges">
@@ -1204,6 +1204,7 @@ footer{
         <div class="hero-buttons">
             <button class="btn" onclick="setType('mod')">🔥 Mods</button>
             <button class="btn secondary" onclick="setType('resourcepack')">🎨 Resource Packs</button>
+            <button class="btn secondary" onclick="setType('datapack')">📦 Data Packs</button>
         </div>
 
         <!-- Read Info Buttons -->
@@ -1217,7 +1218,7 @@ footer{
         <div class="hero-stats">
             <div class="stat-box">
                 <div class="stat-num">1,000+</div>
-                <div class="stat-label">Հասանելի Մոդեր</div>
+                <div class="stat-label">Հասանելի Մոդեր / Packs</div>
             </div>
             <div class="stat-box">
                 <div class="stat-num">100%</div>
@@ -1331,6 +1332,7 @@ footer{
         <div class="footer-links">
             <a href="#modsSection" onclick="setType('mod')">Mods</a>
             <a href="#modsSection" onclick="setType('resourcepack')">Resource Packs</a>
+            <a href="#modsSection" onclick="setType('datapack')">Data Packs</a>
             <a href="#" onclick="openArticleModal('guide')">Տեղադրման Ուղեցույց</a>
             <a href="#" onclick="toggleSidebar(); toggleSubPanel('faqPanel'); return false;">FAQ</a>
         </div>
@@ -1382,12 +1384,12 @@ function openArticleModal(type){
     const content = document.getElementById("articleContent");
 
     if(type === 'guide'){
-        title.textContent = "⚡ Ինչպե՞ս տեղադրել մոդեր";
+        title.textContent = "⚡ Ինչպե՞ս տեղադրել";
         content.innerHTML = `
-            <p>1. Ներբեռնեք <strong>Fabric</strong> կամ <strong>Forge</strong> loader-ը:</p>
-            <p>2. Բացեք <code>.minecraft/mods</code> թղթապանակը (Windows Key + R -> %appdata%):</p>
-            <p>3. Տեղադրեք ներբեռնված <code>.jar</code> ֆայլը այդ թղթապանակում:</p>
-            <p>4. Միացրեք խաղը և վայելեք:</p>
+            <p>1. Mods-ի համար ներբեռնեք <strong>Fabric</strong> կամ <strong>Forge</strong> loader-ը:</p>
+            <p>2. Mods-ի <code>.jar</code> ֆայլը տեղադրեք <code>.minecraft/mods</code> թղթապանակում:</p>
+            <p>3. Resource Pack-ը տեղադրեք <code>.minecraft/resourcepacks</code> թղթապանակում:</p>
+            <p>4. Data Pack-ը տեղադրեք աշխարհի <code>datapacks</code> թղթապանակում:</p>
         `;
     } else if(type === 'top'){
         title.textContent = "💡 Top 5 Անհրաժեշտ Մոդեր";
@@ -1535,6 +1537,7 @@ function armenianDescription(project){
     if(name.includes("xaero")) return "Ավելացնում է հարմար քարտեզ և օգտակար նավիգացիոն հնարավորություններ։";
     if(name.includes("journeymap")) return "Ավելացնում է մանրամասն քարտեզ և ճանապարհորդության օգտակար գործիքներ։";
     if(currentType === "resourcepack") return "Resource Pack, որը փոխում է Minecraft-ի տեսքը, տեքստուրաները և մթնոլորտը։";
+    if(currentType === "datapack") return "Data Pack, որը Minecraft-ում ավելացնում է նոր հնարավորություններ, մեխանիկաներ կամ փոփոխություններ՝ առանց մոդի։";
     return "Minecraft-ի համար նախատեսված մոդ, որը ավելացնում է նոր հնարավորություններ կամ բարելավում խաղային փորձը։";
 }
 
@@ -1665,7 +1668,7 @@ function renderProjects(){
         const validVersions = (project.versions || []).filter(v => /^\d+\.\d+(\.\d+)?$/.test(v));
 
         const allowedLoaders = ['fabric', 'forge', 'neoforge', 'quilt'];
-        const loadersList = (project.display_categories || []).filter(c => allowedLoaders.includes(c.toLowerCase()));
+        const loadersList = currentType === 'datapack' ? [] : (project.display_categories || []).filter(c => allowedLoaders.includes(c.toLowerCase()));
         const displayLoaders = loadersList.join(', ');
 
         const optionsHtml = validVersions.length > 0
@@ -1793,12 +1796,19 @@ function setType(type){
     if(type === "resourcepack"){
         title.textContent = "🎨 Resource Packs";
         subtitle.textContent = "Տեքստուրաներ Minecraft-ի համար";
+    }else if(type === "datapack"){
+        title.textContent = "📦 Data Packs";
+        subtitle.textContent = "Data Packs Minecraft-ի համար";
     }else{
         title.textContent = "🔥 Հանրաճանաչ Mods";
         subtitle.textContent = "Մոդեր Minecraft-ի համար";
     }
     
     document.getElementById("search").value = "";
+    const searchInput = document.getElementById("search");
+    if(type === "datapack") searchInput.placeholder = "🔎 Փնտրել Data Pack-եր...";
+    else if(type === "resourcepack") searchInput.placeholder = "🔎 Փնտրել resource pack-եր...";
+    else searchInput.placeholder = "🔎 Փնտրել մոդեր, շեյդերներ, տեքստուրաներ...";
     document.getElementById("modsSection").scrollIntoView({ behavior: "smooth" });
     searchProjects();
 }
