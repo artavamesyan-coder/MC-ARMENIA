@@ -3,6 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+if ("scrollRestoration" in history) history.scrollRestoration = "manual";
+window.addEventListener("load", () => window.scrollTo(0, 0));
+window.addEventListener("pageshow", () => window.scrollTo(0, 0));
+</script>
 <title>MC Armenia — Minecraft Mods, Resource Packs & Data Packs</title>
 
 <!-- Firebase Core & Auth (Optional SDKs) -->
@@ -132,7 +138,7 @@ body{
     position:fixed;
     top:20px;
     left:20px;
-    z-index:90;
+    z-index:9999;
     width:50px;
     height:50px;
     border-radius:15px;
@@ -178,7 +184,7 @@ body{
     inset:0;
     background:rgba(0,0,0,0.6);
     backdrop-filter:blur(6px);
-    z-index:80;
+    z-index:9997;
     opacity:0;
     visibility:hidden;
     transition:0.3s;
@@ -197,7 +203,7 @@ body{
     height:100vh;
     background:linear-gradient(180deg, #130a1e, #08050c);
     border-right:1px solid rgba(192, 132, 252, 0.3);
-    z-index:85;
+    z-index:9998;
     padding:80px 20px 30px;
     overflow-y:auto;
     transition:left 0.4s cubic-bezier(0.1, 0.9, 0.2, 1);
@@ -1121,13 +1127,13 @@ footer{
 <div class="particles" id="particles"></div>
 
 <!-- BURGER BUTTON & SIDEBAR -->
-<div class="burger-btn" id="burgerBtn" onclick="toggleSidebar()">
+<div class="burger-btn" id="burgerBtn" role="button" tabindex="0" aria-label="Open menu">
     <div class="burger-line"></div>
     <div class="burger-line"></div>
     <div class="burger-line"></div>
 </div>
 
-<div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
 
 <div class="sidebar" id="sidebar">
     <div class="sidebar-btn-menu">
@@ -1200,18 +1206,27 @@ footer{
             <span class="badge-item">📦 100% Free & Fast</span>
         </div>
 
+        <!-- LANGUAGE SELECTOR -->
+        <div style="display:flex; justify-content:center; margin:14px 0 4px;">
+            <select id="languageSelect" class="select" onchange="changeLanguage(this.value)" style="max-width:140px;">
+                <option value="hy">🇦🇲 Հայերեն</option>
+                <option value="en">🇬🇧 English</option>
+                <option value="ru">🇷🇺 Русский</option>
+            </select>
+        </div>
+
         <!-- Category Buttons -->
         <div class="hero-buttons">
-            <button class="btn" onclick="setType('mod')">🔥 Mods</button>
-            <button class="btn secondary" onclick="setType('resourcepack')">🎨 Resource Packs</button>
-            <button class="btn secondary" onclick="setType('datapack')">📦 Data Packs</button>
+            <button id="modBtn" class="btn" onclick="setType('mod')">🔥 Mods</button>
+            <button id="resourceBtn" class="btn secondary" onclick="setType('resourcepack')">🎨 Resource Packs</button>
+            <button id="dataBtn" class="btn secondary" onclick="setType('datapack')">📦 Data Packs</button>
         </div>
 
         <!-- Read Info Buttons -->
         <div class="info-buttons">
-            <button class="btn info-btn" onclick="openArticleModal('guide')">⚡ Ինչպե՞ս տեղադրել</button>
-            <button class="btn info-btn" onclick="openArticleModal('top')">💡 Top 5 Մոդեր</button>
-            <button class="btn info-btn" onclick="openArticleModal('tips')">📖 Խաղային Խորհուրդներ</button>
+            <button class="btn info-btn" id="guideBtn" onclick="openArticleModal('guide')">⚡ Ինչպե՞ս տեղադրել</button>
+            <button class="btn info-btn" id="topBtn" onclick="openArticleModal('top')">💡 Top 5 Մոդեր</button>
+            <button class="btn info-btn" id="tipsBtn" onclick="openArticleModal('tips')">📖 Խաղային Խորհուրդներ</button>
         </div>
 
         <!-- LIVE STATS BAR -->
@@ -1250,11 +1265,11 @@ footer{
                 <div id="suggestionsBox" class="suggestions-box"></div>
             </div>
             <select id="sortSelect" class="select" style="max-width:160px;" onchange="searchProjects()">
-                <option value="relevance">Հանրաճանաչ</option>
-                <option value="downloads">Շատ քաշված</option>
-                <option value="newest">Նոր ավելացված</option>
+                <option id="sortRel" value="relevance">Հանրաճանաչ</option>
+                <option id="sortDl" value="downloads">Շատ քաշված</option>
+                <option id="sortNew" value="newest">Նոր ավելացված</option>
             </select>
-            <button class="btn" onclick="searchProjects()">Որոնել</button>
+            <button id="searchBtn" class="btn" onclick="searchProjects()">Որոնել</button>
         </div>
 
         <!-- FAST FILTER CHIPS -->
@@ -1283,7 +1298,7 @@ footer{
         <h2 id="articleTitle" class="modal-title"></h2>
         <div id="articleContent" class="full-description"></div>
         <br>
-        <button class="btn secondary" onclick="closeModal('articleModal')">Փակել</button>
+        <button id="articleCloseBtn" class="btn secondary" onclick="closeModal('articleModal')">Փակել</button>
     </div>
 </div>
 
@@ -1296,7 +1311,7 @@ footer{
             <div id="progressBar" class="progress-bar"></div>
         </div>
         <br>
-        <button class="btn secondary" onclick="closeModal('modal')">Փակել</button>
+        <button id="downloadCloseBtn" class="btn secondary" onclick="closeModal('modal')">Փակել</button>
     </div>
 </div>
 
@@ -1308,13 +1323,13 @@ footer{
         
         <div id="detailsGallery" class="gallery"></div>
         
-        <h4 style="margin-top:20px; margin-bottom:5px;">Նկարագրություն:</h4>
+        <h4 id="detailsDescLabel" style="margin-top:20px; margin-bottom:5px;">Նկարագրություն:</h4>
         <div id="detailsBody" class="full-description"></div>
 
         <br>
         <div style="display:flex; gap:10px; justify-content:flex-end;">
-            <button id="detailsDownloadBtn" class="btn">⬇️ Ներբեռնել</button>
-            <button class="btn secondary" onclick="closeModal('detailsModal')">Փակել</button>
+            <button id="detailsDownloadBtn" class="btn">${tr("download")}</button>
+            <button id="detailsCloseBtn" class="btn secondary" onclick="closeModal('detailsModal')">Փակել</button>
         </div>
     </div>
 </div>
@@ -1343,6 +1358,9 @@ footer{
     </div>
 </footer>
 
+
+
+
 <script>
 const API = "https://api.modrinth.com/v2";
 let currentType = "mod";
@@ -1352,10 +1370,18 @@ let autocompleteTimeout = null;
 
 /* SIDEBAR TOGGLE */
 function toggleSidebar(){
-    document.getElementById("burgerBtn").classList.toggle("active");
-    document.getElementById("sidebar").classList.toggle("active");
-    document.getElementById("sidebarOverlay").classList.toggle("active");
+    const burger = document.getElementById("burgerBtn");
+    const sidebar = document.getElementById("sidebar");
+    const overlay = document.getElementById("sidebarOverlay");
+
+    if (!burger || !sidebar || !overlay) return;
+
+    burger.classList.toggle("active");
+    sidebar.classList.toggle("active");
+    overlay.classList.toggle("active");
 }
+
+window.toggleSidebar = toggleSidebar;
 
 /* SUB PANEL TOGGLE IN SIDEBAR */
 function toggleSubPanel(panelId){
@@ -1537,6 +1563,7 @@ function armenianDescription(project){
     if(name.includes("xaero")) return "Ավելացնում է հարմար քարտեզ և օգտակար նավիգացիոն հնարավորություններ։";
     if(name.includes("journeymap")) return "Ավելացնում է մանրամասն քարտեզ և ճանապարհորդության օգտակար գործիքներ։";
     if(currentType === "resourcepack") return "Resource Pack, որը փոխում է Minecraft-ի տեսքը, տեքստուրաները և մթնոլորտը։";
+    if(currentType === "datapack") return "Data Pack, որը Minecraft-ում ավելացնում է նոր հնարավորություններ, մեխանիկաներ կամ փոփոխություններ։";
     if(currentType === "datapack") return "Data Pack, որը Minecraft-ում ավելացնում է նոր հնարավորություններ, մեխանիկաներ կամ փոփոխություններ՝ առանց մոդի։";
     return "Minecraft-ի համար նախատեսված մոդ, որը ավելացնում է նոր հնարավորություններ կամ բարելավում խաղային փորձը։";
 }
@@ -1611,7 +1638,7 @@ async function searchProjects(){
     document.getElementById("suggestionsBox").classList.remove("active");
 
     results.innerHTML = `<div class="loading"><div class="spinner"></div></div>`;
-    status.textContent = "Որոնվում է...";
+    status.textContent = tr("searching");
 
     try{
         let finalQuery = queryInput;
@@ -1636,7 +1663,7 @@ async function searchProjects(){
                 <p>Տեղի ունեցավ սխալ տվյալները բեռնելիս։</p>
             </div>
         `;
-        status.textContent = "Սխալ՝ որոնումը չհաջողվեց։";
+        status.textContent = tr("error");
     }
 }
 
@@ -1649,14 +1676,14 @@ function renderProjects(){
         results.innerHTML = `
             <div class="empty">
                 <div class="empty-icon">🔍</div>
-                <p>Ոչինչ չի գտնվել</p>
+                <p>${tr("none")}</p>
             </div>
         `;
-        status.textContent = "Արդյունքներ չկան";
+        status.textContent = tr("none");
         return;
     }
 
-    status.textContent = `Գտնվել է ${projects.length} արդյունք`;
+    status.textContent = tr("found", projects.length);
 
     results.innerHTML = projects.map((project, index) => {
         const title = escapeHTML(project.title);
@@ -1687,11 +1714,11 @@ function renderProjects(){
                     <p class="card-description">${description}</p>
                     
                     <div class="meta-info" onclick="event.stopPropagation();">
-                        <b>Ընտրել տարբերակը:</b>
+                        <b>${tr("choose")}</b>
                         <select id="ver-${project.project_id}" class="select card-select">
                             ${optionsHtml}
                         </select>
-                        ${displayLoaders ? `<b>Loaders:</b> <span>${escapeHTML(displayLoaders)}</span>` : ''}
+                        ${displayLoaders ? `<b>${tr("loaders")}</b> <span>${escapeHTML(displayLoaders)}</span>` : ''}
                     </div>
 
                     <div class="tags">
@@ -1702,7 +1729,7 @@ function renderProjects(){
                         <button class="download-btn" onclick="event.stopPropagation(); downloadProject('${project.project_id}')">
                             ⬇️ Ներբեռնել
                         </button>
-                        <span class="downloads" id="dl-count-${project.project_id}">📥 ${localDownloads}</span>
+                        <span class="downloads" id="dl-count-${project.project_id}">${tr("downloads", localDownloads)}</span>
                     </div>
                 </div>
             </div>
@@ -1751,7 +1778,7 @@ async function openDetailsModal(projectId){
                 <img src="${img.url}" class="gallery-img" alt="Screenshot" onclick="openImageViewer('${img.url}')">
             `).join('');
         } else {
-            gallery.innerHTML = "<p style='font-size:12px; color:#8a74a6;'>Նկարներ չկան</p>";
+            gallery.innerHTML = `<p style="font-size:12px; color:#8a74a6;">${tr("noImages")}</p>`;
         }
 
         downloadBtn.onclick = () => {
@@ -1788,29 +1815,25 @@ function closeImageViewer(event){
 }
 
 /* UI FUNCTIONS */
-function setType(type){
+function setType(type, doSearch = true){
     currentType = type;
     const title = document.getElementById("sectionTitle");
     const subtitle = document.getElementById("sectionSubtitle");
 
     if(type === "resourcepack"){
-        title.textContent = "🎨 Resource Packs";
-        subtitle.textContent = "Տեքստուրաներ Minecraft-ի համար";
+        title.textContent = tr("resources"); subtitle.textContent = tr("resourcesSub");
     }else if(type === "datapack"){
-        title.textContent = "📦 Data Packs";
-        subtitle.textContent = "Data Packs Minecraft-ի համար";
+        title.textContent = tr("datapacks"); subtitle.textContent = tr("datapacksSub");
     }else{
-        title.textContent = "🔥 Հանրաճանաչ Mods";
-        subtitle.textContent = "Մոդեր Minecraft-ի համար";
+        title.textContent = tr("popularMods"); subtitle.textContent = tr("modsSub");
     }
-    
     document.getElementById("search").value = "";
     const searchInput = document.getElementById("search");
-    if(type === "datapack") searchInput.placeholder = "🔎 Փնտրել Data Pack-եր...";
-    else if(type === "resourcepack") searchInput.placeholder = "🔎 Փնտրել resource pack-եր...";
-    else searchInput.placeholder = "🔎 Փնտրել մոդեր, շեյդերներ, տեքստուրաներ...";
+    if(type === "datapack") searchInput.placeholder = tr("searchData");
+    else if(type === "resourcepack") searchInput.placeholder = tr("searchResources");
+    else searchInput.placeholder = tr("searchMods");
     document.getElementById("modsSection").scrollIntoView({ behavior: "smooth" });
-    searchProjects();
+    if(doSearch) searchProjects();
 }
 
 async function downloadProject(projectId){
@@ -1859,9 +1882,98 @@ function closeModal(id){
     }
 }
 
+/* LANGUAGE SYSTEM */
+const translations = {
+    hy: {
+        tagline:"Minecraft Mods & Resource Packs", mod:"🔥 Mods", resource:"🎨 Resource Packs", data:"📦 Data Packs",
+        guide:"⚡ Ինչպե՞ս տեղադրել", top:"💡 Top 5 Մոդեր", tips:"📖 Խաղային Խորհուրդներ",
+        popularMods:"🔥 Հանրաճանաչ Mods", modsSub:"Մոդեր Minecraft-ի համար", resources:"🎨 Resource Packs", resourcesSub:"Տեքստուրաներ Minecraft-ի համար",
+        datapacks:"📦 Data Packs", datapacksSub:"Data Packs Minecraft-ի համար", searchMods:"🔎 Փնտրել մոդեր, շեյդերներ, տեքստուրաներ...", searchResources:"🔎 Փնտրել resource pack-եր...", searchData:"🔎 Փնտրել Data Pack-եր...",
+        popular:"Հանրաճանաչ", downloaded:"Շատ քաշված", newest:"Նոր ավելացված", search:"Որոնել", all:"Բոլորը", fabric:"⚡ Fabric", forge:"🛠️ Forge", optimization:"🚀 Optimization", shaders:"✨ Shaders", loading:"Բեռնվում է...", searching:"Որոնվում է...", found:n=>`Գտնվել է ${n} արդյունք`, none:"Ոչինչ չի գտնվել", error:"Սխալ՝ որոնումը չհաջողվեց։", choose:"Ընտրել տարբերակը:", noVersions:"Տարբերակներ չկան", loaders:"Loaders:", type:"Տեսակը՝", description:"Նկարագրություն:", close:"Փակել", download:"⬇️ Ներբեռնել", downloads:n=>`📥 ${n}`, downloadPreparing:"Որոնվում է ընտրված տարբերակի ֆայլը...", downloadReady:v=>`Պատրաստ է (${v}): Սկսվում է ներբեռնումը...`, downloadFail:"Չհաջողվեց գտնել ընտրված տարբերակի ֆայլը։", noImages:"Նկարներ չկան", footerTag:"Designed for Minecraft Players", footerGuide:"Տեղադրման Ուղեցույց", faq:"FAQ"
+    },
+    en: {
+        tagline:"Minecraft Mods & Resource Packs", mod:"🔥 Mods", resource:"🎨 Resource Packs", data:"📦 Data Packs",
+        guide:"⚡ How to install", top:"💡 Top 5 Mods", tips:"📖 Gaming Tips",
+        popularMods:"🔥 Popular Mods", modsSub:"Mods for Minecraft", resources:"🎨 Resource Packs", resourcesSub:"Textures for Minecraft",
+        datapacks:"📦 Data Packs", datapacksSub:"Data Packs for Minecraft", searchMods:"🔎 Search mods, shaders, textures...", searchResources:"🔎 Search resource packs...", searchData:"🔎 Search Data Packs...",
+        popular:"Popular", downloaded:"Most downloaded", newest:"Newest", search:"Search", all:"All", fabric:"⚡ Fabric", forge:"🛠️ Forge", optimization:"🚀 Optimization", shaders:"✨ Shaders", loading:"Loading...", searching:"Searching...", found:n=>`${n} results found`, none:"Nothing found", error:"Error: search failed.", choose:"Choose version:", noVersions:"No versions", loaders:"Loaders:", type:"Type:", description:"Description:", close:"Close", download:"⬇️ Download", downloads:n=>`📥 ${n}`, downloadPreparing:"Finding file for selected version...", downloadReady:v=>`Ready (${v}): Download starting...`, downloadFail:"Could not find a file for the selected version.", noImages:"No images", footerTag:"Designed for Minecraft Players", footerGuide:"Installation Guide", faq:"FAQ"
+    },
+    ru: {
+        tagline:"Minecraft Mods & Resource Packs", mod:"🔥 Моды", resource:"🎨 Ресурспаки", data:"📦 Дата-паки",
+        guide:"⚡ Как установить", top:"💡 Топ 5 модов", tips:"📖 Игровые советы",
+        popularMods:"🔥 Популярные моды", modsSub:"Моды для Minecraft", resources:"🎨 Ресурспаки", resourcesSub:"Текстуры для Minecraft",
+        datapacks:"📦 Дата-паки", datapacksSub:"Дата-паки для Minecraft", searchMods:"🔎 Поиск модов, шейдеров, текстур...", searchResources:"🔎 Поиск ресурспаков...", searchData:"🔎 Поиск дата-паков...",
+        popular:"Популярные", downloaded:"Скачиваемые", newest:"Новые", search:"Поиск", all:"Все", fabric:"⚡ Fabric", forge:"🛠️ Forge", optimization:"🚀 Оптимизация", shaders:"✨ Шейдеры", loading:"Загрузка...", searching:"Поиск...", found:n=>`Найдено результатов: ${n}`, none:"Ничего не найдено", error:"Ошибка: поиск не удался.", choose:"Выберите версию:", noVersions:"Нет версий", loaders:"Загрузчики:", type:"Тип:", description:"Описание:", close:"Закрыть", download:"⬇️ Скачать", downloads:n=>`📥 ${n}`, downloadPreparing:"Поиск файла выбранной версии...", downloadReady:v=>`Готово (${v}): начинается скачивание...`, downloadFail:"Не удалось найти файл выбранной версии.", noImages:"Нет изображений", footerTag:"Создано для игроков Minecraft", footerGuide:"Руководство по установке", faq:"FAQ"
+    }
+};
+let currentLanguage = localStorage.getItem("mc_armenia_language") || "hy";
+function tr(key,...args){ const v=translations[currentLanguage][key]; return typeof v==='function' ? v(...args) : (v ?? key); }
+function changeLanguage(lang){
+    if(!translations[lang]) return;
+    currentLanguage = lang;
+    localStorage.setItem("mc_armenia_language", lang);
+
+    const select = document.getElementById("languageSelect");
+    if(select) select.value = lang;
+
+    const setText = (id, key) => {
+        const el = document.getElementById(id);
+        if(el) el.textContent = tr(key);
+    };
+
+    setText("siteTagline", "tagline");
+    setText("modBtn", "mod");
+    setText("resourceBtn", "resource");
+    setText("dataBtn", "data");
+    setText("guideBtn", "guide");
+    setText("topBtn", "top");
+    setText("tipsBtn", "tips");
+    setText("sortRel", "popular");
+    setText("sortDl", "downloaded");
+    setText("sortNew", "newest");
+    setText("searchBtn", "search");
+
+    const search = document.getElementById("search");
+    if(search){
+        search.placeholder = currentType === "resourcepack" ? tr("searchResources") : currentType === "datapack" ? tr("searchData") : tr("searchMods");
+    }
+
+    const chips = document.querySelectorAll('.chip');
+    if(chips[0]) chips[0].textContent = tr("all");
+    if(chips[1]) chips[1].textContent = tr("fabric");
+    if(chips[2]) chips[2].textContent = tr("forge");
+    if(chips[3]) chips[3].textContent = tr("optimization");
+    if(chips[4]) chips[4].textContent = tr("shaders");
+
+    if(typeof setType === "function") setType(currentType, false);
+    else if(typeof renderProjects === "function") renderProjects();
+}
+
 window.addEventListener("DOMContentLoaded", () => {
+    const burgerButton = document.getElementById("burgerBtn");
+    const sidebarOverlay = document.getElementById("sidebarOverlay");
+
+    if (burgerButton) {
+        burgerButton.addEventListener("click", (event) => {
+            event.stopPropagation();
+            toggleSidebar();
+        });
+        burgerButton.addEventListener("keydown", (event) => {
+            if (event.key === "Enter" || event.key === " ") {
+                event.preventDefault();
+                toggleSidebar();
+            }
+        });
+    }
+
+    if (sidebarOverlay) {
+        sidebarOverlay.addEventListener("click", () => toggleSidebar());
+    }
+
+
     const searchInput = document.getElementById("search");
-    
+    if (!searchInput) return;
+
     searchInput.addEventListener("keydown", (event) => {
         if (event.key === "Enter") {
             searchProjects();
@@ -1882,6 +1994,8 @@ window.addEventListener("DOMContentLoaded", () => {
         }
     });
 
+    document.getElementById("languageSelect").value = currentLanguage;
+    changeLanguage(currentLanguage);
     createParticles();
     loadReviews();
     loadBugReports();
